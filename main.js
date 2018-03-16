@@ -1,5 +1,3 @@
-// Directional lighting demo: By Frederick Li
-
 var modelMatrix = new Matrix4(); // The model matrix
 var viewMatrix = new Matrix4();  // The view matrix
 var projMatrix = new Matrix4();  // The projection matrix
@@ -50,7 +48,8 @@ function main() {
   if (!u_ModelMatrix || !u_ViewMatrix || !u_NormalMatrix ||
       !u_ProjMatrix || !u_LightColor || !u_LightDirection ||
       !u_isLighting ) { 
-    console.log('Failed to Get the storage locations of u_ModelMatrix, u_ViewMatrix, and/or u_ProjMatrix');
+    console.log(
+      'Failed to Get the storage locations of u_ModelMatrix, u_ViewMatrix, and/or u_ProjMatrix');
     return;
   }
 
@@ -297,6 +296,34 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   pushMatrix(modelMatrix);
     modelMatrix.translate(0, 1.25, -0.75);  // Translation
     modelMatrix.scale(2.0, 2.0, 0.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the chair back right leg
+  pushMatrix(modelMatrix);
+    modelMatrix.translate(0.75, -0.75, -0.75);  // Translation
+    modelMatrix.scale(0.5, 2.0, 0.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the chair back left leg
+  pushMatrix(modelMatrix);
+    modelMatrix.translate(-0.75, -0.75, -0.75);  // Translation
+    modelMatrix.scale(0.5, 2.0, 0.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the chair front right leg
+  pushMatrix(modelMatrix);
+    modelMatrix.translate(0.75, -0.75, 0.75);  // Translation
+    modelMatrix.scale(0.5, 2.0, 0.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the chair front left leg
+  pushMatrix(modelMatrix);
+    modelMatrix.translate(-0.75, -0.75, 0.75);  // Translation
+    modelMatrix.scale(0.5, 2.0, 0.5); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 }
