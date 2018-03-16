@@ -290,7 +290,10 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   // drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [1,0,-1])
 
   // TABLE
-  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,0,0])
+  // drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,0,0])
+
+  // WHITEBOARD
+  // drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,0,0])
 }
 
 function drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoint) {
@@ -370,6 +373,15 @@ function drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoi
   pushMatrix(modelMatrix);
     modelMatrix.translate(centrePoint[0]-2.75, centrePoint[1]-0.75, centrePoint[2]+1.5);  // Translation
     modelMatrix.scale(0.5, 2.0, 0.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+}
+
+function drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoint) {
+  // Model the table top
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2])
+    modelMatrix.scale(7.0, 4.0, 0.25); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 }
