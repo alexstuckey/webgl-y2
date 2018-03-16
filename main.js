@@ -286,6 +286,13 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   modelMatrix.rotate(g_yAngle, 0, 1, 0); // Rotate along y axis
   modelMatrix.rotate(g_xAngle, 1, 0, 0); // Rotate along x axis
 
+  // CHAIR
+  drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n)
+
+  // TABLE
+}
+
+function drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n) {
   // Model the chair seat
   pushMatrix(modelMatrix);
     modelMatrix.scale(2.0, 0.5, 2.0); // Scale
