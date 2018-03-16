@@ -287,9 +287,10 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   modelMatrix.rotate(g_xAngle, 1, 0, 0); // Rotate along x axis
 
   // CHAIRS
-  drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [1,0,-1])
+  // drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [1,0,-1])
 
   // TABLE
+  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,0,0])
 }
 
 function drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoint) {
@@ -331,6 +332,43 @@ function drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoi
   // Model the chair front left leg
   pushMatrix(modelMatrix);
     modelMatrix.translate(centrePoint[0]-0.75, centrePoint[1]-0.75, centrePoint[2]+0.75);  // Translation
+    modelMatrix.scale(0.5, 2.0, 0.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+}
+
+function drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoint) {
+  // Model the table top
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2])
+    modelMatrix.scale(6.0, 0.5, 3.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the back right leg
+  pushMatrix(modelMatrix);
+    modelMatrix.translate(centrePoint[0]+2.75, centrePoint[1]-0.75, centrePoint[2]-1.5);  // Translation
+    modelMatrix.scale(0.5, 2.0, 0.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the back left leg
+  pushMatrix(modelMatrix);
+    modelMatrix.translate(centrePoint[0]-2.75, centrePoint[1]-0.75, centrePoint[2]-1.5);  // Translation
+    modelMatrix.scale(0.5, 2.0, 0.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the front right leg
+  pushMatrix(modelMatrix);
+    modelMatrix.translate(centrePoint[0]+2.75, centrePoint[1]-0.75, centrePoint[2]+1.5);  // Translation
+    modelMatrix.scale(0.5, 2.0, 0.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the front left leg
+  pushMatrix(modelMatrix);
+    modelMatrix.translate(centrePoint[0]-2.75, centrePoint[1]-0.75, centrePoint[2]+1.5);  // Translation
     modelMatrix.scale(0.5, 2.0, 0.5); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
