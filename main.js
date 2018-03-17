@@ -1,3 +1,9 @@
+function intRBGtoFloat(int) {
+  float = 1.0/255*int
+  return float
+}
+
+
 var modelMatrix = new Matrix4(); // The model matrix
 var viewMatrix = new Matrix4();  // The view matrix
 var projMatrix = new Matrix4();  // The projection matrix
@@ -174,6 +180,79 @@ function initVertexBuffers(gl) {
   return indices.length;
 }
 
+function initVertexBuffersCustomColour(gl, r, g, b) {
+  // Convert int to float RBG
+  r = intRBGtoFloat(r)
+  g = intRBGtoFloat(g)
+  b = intRBGtoFloat(b)
+
+  // Create a cube
+  //    v6----- v5
+  //   /|      /|
+  //  v1------v0|
+  //  | |     | |
+  //  | |v7---|-|v4
+  //  |/      |/
+  //  v2------v3
+  var vertices = new Float32Array([   // Coordinates
+     0.5, 0.5, 0.5,  -0.5, 0.5, 0.5,  -0.5,-0.5, 0.5,   0.5,-0.5, 0.5, // v0-v1-v2-v3 front
+     0.5, 0.5, 0.5,   0.5,-0.5, 0.5,   0.5,-0.5,-0.5,   0.5, 0.5,-0.5, // v0-v3-v4-v5 right
+     0.5, 0.5, 0.5,   0.5, 0.5,-0.5,  -0.5, 0.5,-0.5,  -0.5, 0.5, 0.5, // v0-v5-v6-v1 up
+    -0.5, 0.5, 0.5,  -0.5, 0.5,-0.5,  -0.5,-0.5,-0.5,  -0.5,-0.5, 0.5, // v1-v6-v7-v2 left
+    -0.5,-0.5,-0.5,   0.5,-0.5,-0.5,   0.5,-0.5, 0.5,  -0.5,-0.5, 0.5, // v7-v4-v3-v2 down
+     0.5,-0.5,-0.5,  -0.5,-0.5,-0.5,  -0.5, 0.5,-0.5,   0.5, 0.5,-0.5  // v4-v7-v6-v5 back
+  ]);
+
+
+  var colors = new Float32Array([    // Colors
+    r, g, b,   r, g, b,   r, g, b,  r, g, b,     // v0-v1-v2-v3 front
+    r, g, b,   r, g, b,   r, g, b,  r, g, b,     // v0-v3-v4-v5 right
+    r, g, b,   r, g, b,   r, g, b,  r, g, b,     // v0-v5-v6-v1 up
+    r, g, b,   r, g, b,   r, g, b,  r, g, b,     // v1-v6-v7-v2 left
+    r, g, b,   r, g, b,   r, g, b,  r, g, b,     // v7-v4-v3-v2 down
+    r, g, b,   r, g, b,   r, g, b,  r, g, b　    // v4-v7-v6-v5 back
+ ]);
+
+
+  var normals = new Float32Array([    // Normal
+    0.0, 0.0, 1.0,   0.0, 0.0, 1.0,   0.0, 0.0, 1.0,   0.0, 0.0, 1.0,  // v0-v1-v2-v3 front
+    1.0, 0.0, 0.0,   1.0, 0.0, 0.0,   1.0, 0.0, 0.0,   1.0, 0.0, 0.0,  // v0-v3-v4-v5 right
+    0.0, 1.0, 0.0,   0.0, 1.0, 0.0,   0.0, 1.0, 0.0,   0.0, 1.0, 0.0,  // v0-v5-v6-v1 up
+   -1.0, 0.0, 0.0,  -1.0, 0.0, 0.0,  -1.0, 0.0, 0.0,  -1.0, 0.0, 0.0,  // v1-v6-v7-v2 left
+    0.0,-1.0, 0.0,   0.0,-1.0, 0.0,   0.0,-1.0, 0.0,   0.0,-1.0, 0.0,  // v7-v4-v3-v2 down
+    0.0, 0.0,-1.0,   0.0, 0.0,-1.0,   0.0, 0.0,-1.0,   0.0, 0.0,-1.0   // v4-v7-v6-v5 back
+  ]);
+
+
+  // Indices of the vertices
+  var indices = new Uint8Array([
+     0, 1, 2,   0, 2, 3,    // front
+     4, 5, 6,   4, 6, 7,    // right
+     8, 9,10,   8,10,11,    // up
+    12,13,14,  12,14,15,    // left
+    16,17,18,  16,18,19,    // down
+    20,21,22,  20,22,23     // back
+ ]);
+
+
+  // Write the vertex property to buffers (coordinates, colors and normals)
+  if (!initArrayBuffer(gl, 'a_Position', vertices, 3, gl.FLOAT)) return -1;
+  if (!initArrayBuffer(gl, 'a_Color', colors, 3, gl.FLOAT)) return -1;
+  if (!initArrayBuffer(gl, 'a_Normal', normals, 3, gl.FLOAT)) return -1;
+
+  // Write the indices to the buffer object
+  var indexBuffer = gl.createBuffer();
+  if (!indexBuffer) {
+    console.log('Failed to create the buffer object');
+    return false;
+  }
+
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+
+  return indices.length;
+}
+
 function initArrayBuffer (gl, attribute, data, num, type) {
   // Create a buffer object
   var buffer = gl.createBuffer();
@@ -283,51 +362,51 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
 
   gl.uniform1i(u_isLighting, true); // Will apply lighting
 
-  // Set the vertex coordinates and color (for the cube)
-  var n = initVertexBuffers(gl);
-  if (n < 0) {
-    console.log('Failed to set the vertex information');
-    return;
-  }
-
   // Rotate, and then translate
   modelMatrix.setTranslate(0, 0, 0);  // Translation (No translation is supported here)
   modelMatrix.rotate(g_yAngle, 0, 1, 0); // Rotate along y axis
   modelMatrix.rotate(g_xAngle, 1, 0, 0); // Rotate along x axis
 
   // CLASSROOM
-  drawClassroom(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,0,0])
+  drawClassroom(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [0,0,0])
 
   // TABLES AND CHAIRS
-  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [-6.5,-7.25,-2.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [-8.0,-8.0,-0.25])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [-5.0,-8.0,-0.25])
+  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-6.5,-7.25,-2.75])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-8.0,-8.0,-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-5.0,-8.0,-0.25])
 
-  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [-6.5,-7.25,6.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [-8.0,-8.0,9.0])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [-5.0,-8.0,9.0])
+  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-6.5,-7.25,6.75])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-8.0,-8.0,9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-5.0,-8.0,9.0])
 
-  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [6.5,-7.25,-2.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [8.0,-8.0,-0.25])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [5.0,-8.0,-0.25])
+  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [6.5,-7.25,-2.75])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [8.0,-8.0,-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [5.0,-8.0,-0.25])
 
-  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [6.5,-7.25,6.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [8.0,-8.0,9.0])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [5.0,-8.0,9.0])  
+  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [6.5,-7.25,6.75])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [8.0,-8.0,9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [5.0,-8.0,9.0])  
 
   // WHITEBOARD
-  drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,-2.0,-12.25])
+  drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [0,-2.0,-12.25])
 
   // WINDOWS
-  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [-12.25,0,6])
-  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [-12.25,0,-6])
+  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.25,0,6])
+  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.25,0,-6])
 
   // DOOR
   // drawDoor(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,0,0])
 
 }
 
-function drawClassroom(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoint) {
+function drawClassroom(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffersCustomColour(gl, 112, 128, 144);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
   // Model the chair seat
   pushMatrix(modelMatrix);
   modelMatrix.translate(centrePoint[0], centrePoint[1]-10, centrePoint[2])
@@ -352,7 +431,14 @@ function drawClassroom(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centr
   
 }
 
-function drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoint) {
+function drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffers(gl);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
   // Model the chair seat
   pushMatrix(modelMatrix);
   modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2])
@@ -396,7 +482,14 @@ function drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoi
   modelMatrix = popMatrix();
 }
 
-function drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoint) {
+function drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffers(gl);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
   // Model the table top
   pushMatrix(modelMatrix);
   modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2])
@@ -433,7 +526,14 @@ function drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoi
   modelMatrix = popMatrix();
 }
 
-function drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoint) {
+function drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffersCustomColour(gl, 0, 1, 0);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
   // Model the table top
   pushMatrix(modelMatrix);
   modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2])
@@ -442,7 +542,14 @@ function drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, cent
   modelMatrix = popMatrix();
 }
 
-function drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoint) {
+function drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffers(gl);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
   // Model the table top
   pushMatrix(modelMatrix);
   modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2])
@@ -451,7 +558,14 @@ function drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePo
   modelMatrix = popMatrix();
 }
 
-function drawDoor(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoint) {
+function drawDoor(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffers(gl);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
   // Model the table top
   pushMatrix(modelMatrix);
   modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2])
