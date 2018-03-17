@@ -4,8 +4,10 @@ var projMatrix = new Matrix4();  // The projection matrix
 var g_normalMatrix = new Matrix4();  // Coordinate transformation matrix for normals
 
 var ANGLE_STEP = 3.0;  // The increments of rotation angle (degrees)
-var g_xAngle = 0.0;    // The rotation x angle (degrees)
-var g_yAngle = 0.0;    // The rotation y angle (degrees)
+// var g_xAngle = 0.0;    // The rotation x angle (degrees)
+// var g_yAngle = 0.0;    // The rotation y angle (degrees)
+var g_xAngle = 15.0;    // The rotation x angle (degrees)
+var g_yAngle = -20.0;    // The rotation y angle (degrees)
 
 function main() {
   // Retrieve <canvas> element
@@ -61,8 +63,15 @@ function main() {
   gl.uniform3fv(u_LightDirection, lightDirection.elements);
 
   // Calculate the view matrix and the projection matrix
-  viewMatrix.setLookAt(0, 0, 15, 0, 0, -100, 0, 1, 0);
-  projMatrix.setPerspective(30, canvas.width/canvas.height, 1, 100);
+    // Matrix4.setLookAt(eyeX, eyeY, eyeZ, atX, atY, atZ, upX, upY, upZ)
+    //  (position of camera, position along the direction looking at, up axis)
+  viewMatrix.setLookAt(0, 0, 40, 0, 0, -100, 0, 1, 0);
+    // Matrix4.setPerspective(fov, aspect, near, far)
+    //  Field of View (fov): Angle of view, formed by top and bottom planes
+    //  Aspect:     Specifies the aspect ratio of the near plane (width/height)
+    //  Near, Far:  Specifies the distances to the near and far clipping
+    //              planes along the line of sight (>0)
+  projMatrix.setPerspective(40, canvas.width/canvas.height, 1, 100);
   // Pass the model, view, and projection matrix to the uniform variable respectively
   gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.elements);
   gl.uniformMatrix4fv(u_ProjMatrix, false, projMatrix.elements);
