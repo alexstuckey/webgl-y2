@@ -398,29 +398,29 @@ function drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoi
 
   // Model the back right leg
   pushMatrix(modelMatrix);
-    modelMatrix.translate(centrePoint[0]+2.75, centrePoint[1]-0.75, centrePoint[2]-1.5);  // Translation
-    modelMatrix.scale(0.5, 2.0, 0.5); // Scale
+    modelMatrix.translate(centrePoint[0]+2.75, centrePoint[1]-1.25, centrePoint[2]-1.5);  // Translation
+    modelMatrix.scale(0.5, 2.75, 0.5); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 
   // Model the back left leg
   pushMatrix(modelMatrix);
-    modelMatrix.translate(centrePoint[0]-2.75, centrePoint[1]-0.75, centrePoint[2]-1.5);  // Translation
-    modelMatrix.scale(0.5, 2.0, 0.5); // Scale
+    modelMatrix.translate(centrePoint[0]-2.75, centrePoint[1]-1.25, centrePoint[2]-1.5);  // Translation
+    modelMatrix.scale(0.5, 2.75, 0.5); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 
   // Model the front right leg
   pushMatrix(modelMatrix);
-    modelMatrix.translate(centrePoint[0]+2.75, centrePoint[1]-0.75, centrePoint[2]+1.5);  // Translation
-    modelMatrix.scale(0.5, 2.0, 0.5); // Scale
+    modelMatrix.translate(centrePoint[0]+2.75, centrePoint[1]-1.25, centrePoint[2]+1.5);  // Translation
+    modelMatrix.scale(0.5, 2.75, 0.5); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 
   // Model the front left leg
   pushMatrix(modelMatrix);
-    modelMatrix.translate(centrePoint[0]-2.75, centrePoint[1]-0.75, centrePoint[2]+1.5);  // Translation
-    modelMatrix.scale(0.5, 2.0, 0.5); // Scale
+    modelMatrix.translate(centrePoint[0]-2.75, centrePoint[1]-1.25, centrePoint[2]+1.5);  // Translation
+    modelMatrix.scale(0.5, 2.75, 0.5); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 }
