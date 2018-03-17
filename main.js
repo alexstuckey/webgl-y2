@@ -308,7 +308,8 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,-2.0,-12.25])
 
   // WINDOWS
-  // drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,0,0])
+  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [-12.25,0,6])
+  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [-12.25,0,-6])
 
   // DOOR
   // drawDoor(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,0,0])
@@ -434,7 +435,7 @@ function drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePo
   // Model the table top
   pushMatrix(modelMatrix);
   modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2])
-    modelMatrix.scale(4.0, 3.0, 0.25); // Scale
+    modelMatrix.scale(0.25, 4.0, 5.5); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 }
