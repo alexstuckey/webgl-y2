@@ -364,6 +364,7 @@ function drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoi
   modelMatrix = popMatrix();
 
   // Model the chair back left leg
+  // Model the chair front left leg
   pushMatrix(modelMatrix);
     modelMatrix.translate(centrePoint[0]-0.75, centrePoint[1]-0.75, centrePoint[2]-0.75);  // Translation
     modelMatrix.scale(0.5, 2.0, 0.5); // Scale
@@ -371,6 +372,7 @@ function drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoi
   modelMatrix = popMatrix();
 
   // Model the chair front right leg
+  // Model the chair back right leg
   pushMatrix(modelMatrix);
     modelMatrix.translate(centrePoint[0]+0.75, centrePoint[1]-0.75, centrePoint[2]+0.75);  // Translation
     modelMatrix.scale(0.5, 2.0, 0.5); // Scale
@@ -378,6 +380,7 @@ function drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoi
   modelMatrix = popMatrix();
 
   // Model the chair front left leg
+  // Model the chair back left leg
   pushMatrix(modelMatrix);
     modelMatrix.translate(centrePoint[0]-0.75, centrePoint[1]-0.75, centrePoint[2]+0.75);  // Translation
     modelMatrix.scale(0.5, 2.0, 0.5); // Scale
