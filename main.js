@@ -6,8 +6,8 @@ var g_normalMatrix = new Matrix4();  // Coordinate transformation matrix for nor
 var ANGLE_STEP = 3.0;  // The increments of rotation angle (degrees)
 // var g_xAngle = 0.0;    // The rotation x angle (degrees)
 // var g_yAngle = 0.0;    // The rotation y angle (degrees)
-var g_xAngle = 15.0;    // The rotation x angle (degrees)
-var g_yAngle = -20.0;    // The rotation y angle (degrees)
+var g_xAngle = 10.0;    // The rotation x angle (degrees)
+var g_yAngle = -40.0;    // The rotation y angle (degrees)
 
 function main() {
   // Retrieve <canvas> element
@@ -65,7 +65,7 @@ function main() {
   // Calculate the view matrix and the projection matrix
     // Matrix4.setLookAt(eyeX, eyeY, eyeZ, atX, atY, atZ, upX, upY, upZ)
     //  (position of camera, position along the direction looking at, up axis)
-  viewMatrix.setLookAt(0, 0, 40, 0, 0, -100, 0, 1, 0);
+  viewMatrix.setLookAt(0, 0, 50, 0, 0, -100, 0, 1, 0);
     // Matrix4.setPerspective(fov, aspect, near, far)
     //  Field of View (fov): Angle of view, formed by top and bottom planes
     //  Aspect:     Specifies the aspect ratio of the near plane (width/height)
@@ -294,6 +294,9 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   modelMatrix.setTranslate(0, 0, 0);  // Translation (No translation is supported here)
   modelMatrix.rotate(g_yAngle, 0, 1, 0); // Rotate along y axis
   modelMatrix.rotate(g_xAngle, 1, 0, 0); // Rotate along x axis
+
+  // CLASSROOM
+  drawClassroom(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,0,0])
 
   // CHAIRS
   // drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [1,0,-1])
