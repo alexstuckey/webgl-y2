@@ -309,6 +309,32 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
 
   // DOOR
   // drawDoor(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,0,0])
+
+}
+
+function drawClassroom(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoint) {
+  // Model the chair seat
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1]-10, centrePoint[2])
+    modelMatrix.scale(25.0, 0.1, 25.0); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the back wall
+  pushMatrix(modelMatrix);
+    modelMatrix.translate(centrePoint[0]+0.0, centrePoint[1]-2.5, centrePoint[2]-12.45);  // Translation
+    modelMatrix.scale(25.0, 15.0, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the left wall
+  pushMatrix(modelMatrix);
+    modelMatrix.translate(centrePoint[0]-12.45, centrePoint[1]-2.5, centrePoint[2]-0.0);  // Translation
+    modelMatrix.scale(0.1, 15.0, 25.0); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  
 }
 
 function drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, centrePoint) {
