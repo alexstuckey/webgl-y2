@@ -3,6 +3,8 @@ function intRBGtoFloat(int) {
   return float
 }
 
+window.chairOffset = 0.0;
+window.chairLastPosition = "in";
 
 var modelMatrix = new Matrix4(); // The model matrix
 var viewMatrix = new Matrix4();  // The view matrix
@@ -94,21 +96,47 @@ function keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   switch (ev.keyCode) {
     case 40: // Up arrow key -> the positive rotation of arm1 around the y-axis
       g_xAngle = (g_xAngle + ANGLE_STEP) % 360;
+      draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
       break;
     case 38: // Down arrow key -> the negative rotation of arm1 around the y-axis
       g_xAngle = (g_xAngle - ANGLE_STEP) % 360;
+      draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
       break;
     case 39: // Right arrow key -> the positive rotation of arm1 around the y-axis
       g_yAngle = (g_yAngle + ANGLE_STEP) % 360;
+      draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
       break;
     case 37: // Left arrow key -> the negative rotation of arm1 around the y-axis
       g_yAngle = (g_yAngle - ANGLE_STEP) % 360;
+      draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
+      break;
+    case 83: // s key
+      start = null;
+      window.requestAnimationFrame(function aStep(timestamp){
+        if (!start) start = timestamp;
+        var progress = timestamp - start;
+        console.log(progress)
+        if (window.chairLastPosition == "in") {
+          window.chairOffset = Math.min((progress/1000)*2.0, 2.0);
+        } else {
+          window.chairOffset = Math.max(2.0-(progress/1000)*2.0, 0.0);
+        }
+        draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
+        if (progress < 1000) {
+          window.requestAnimationFrame(aStep);
+        } else {
+          if (window.chairLastPosition == "in") {
+            window.chairLastPosition = "out";
+          } else {
+            window.chairLastPosition = "in";
+          }
+        }
+      })
+      
       break;
     default: return; // Skip drawing at no effective action
   }
 
-  // Draw the scene
-  draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
 }
 
 
@@ -372,36 +400,36 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
 
   // TABLES AND CHAIRS
   drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-13.5,-7.25,-2.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-15.0,-8.0,-0.25])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.0,-8.0,-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-15.0,-8.0,window.chairOffset+-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.0,-8.0,window.chairOffset+-0.25])
 
   drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-13.5,-7.25,6.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-15.0,-8.0,9.0])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.0,-8.0,9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-15.0,-8.0,window.chairOffset+9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.0,-8.0,window.chairOffset+9.0])
 
   drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-4.5,-7.25,-2.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-6.0,-8.0,-0.25])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-3.0,-8.0,-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-6.0,-8.0,window.chairOffset+-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-3.0,-8.0,window.chairOffset+-0.25])
 
   drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-4.5,-7.25,6.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-6.0,-8.0,9.0])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-3.0,-8.0,9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-6.0,-8.0,window.chairOffset+9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-3.0,-8.0,window.chairOffset+9.0])
 
   drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [4.5,-7.25,-2.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [6.0,-8.0,-0.25])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [3.0,-8.0,-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [6.0,-8.0,window.chairOffset+-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [3.0,-8.0,window.chairOffset+-0.25])
 
   drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [4.5,-7.25,6.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [6.0,-8.0,9.0])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [3.0,-8.0,9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [6.0,-8.0,window.chairOffset+9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [3.0,-8.0,window.chairOffset+9.0])
 
   drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [13.5,-7.25,-2.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [15.0,-8.0,-0.25])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [12.0,-8.0,-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [15.0,-8.0,window.chairOffset+-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [12.0,-8.0,window.chairOffset+-0.25])
 
   drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [13.5,-7.25,6.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [15.0,-8.0,9.0])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [12.0,-8.0,9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [15.0,-8.0,window.chairOffset+9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [12.0,-8.0,window.chairOffset+9.0])
 
   // WHITEBOARD
   drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-5.0,-2.0,-12.25])
