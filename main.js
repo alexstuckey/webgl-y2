@@ -116,10 +116,9 @@ function keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
       break;
     case 83: // s key
       start = null;
-      window.requestAnimationFrame(function aStep(timestamp){
+      function aStep(timestamp) {
         if (!start) start = timestamp;
         var progress = timestamp - start;
-        console.log(progress)
         if (window.chairLastPosition == "in") {
           window.chairOffset = Math.min((progress/1000)*2.0, 2.0);
         } else {
@@ -127,7 +126,7 @@ function keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
         }
         draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
         if (progress < 1000) {
-          window.requestAnimationFrame(aStep);
+          requestAnimationFrame(aStep, document.getElementById('webgl'));
         } else {
           if (window.chairLastPosition == "in") {
             window.chairLastPosition = "out";
@@ -135,7 +134,9 @@ function keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
             window.chairLastPosition = "in";
           }
         }
-      })
+      }
+
+      requestAnimationFrame(aStep, document.getElementById('webgl'))
       
       break;
     default: return; // Skip drawing at no effective action
