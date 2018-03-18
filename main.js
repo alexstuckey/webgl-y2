@@ -391,8 +391,8 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [0,-2.0,-12.25])
 
   // WINDOWS
-  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.25,0,6])
-  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.25,0,-6])
+  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.3,0,6])
+  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.3,0,-6])
 
   // DOOR
   // drawDoor(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,0,0])
@@ -650,7 +650,7 @@ function drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centreP
 
 function drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
   // Set the vertex coordinates and color (for the cube)
-  var n = initVertexBuffers(gl);
+  var n = initVertexBuffersCustomColour(gl, 255, 255, 255);
   if (n < 0) {
     console.log('Failed to set the vertex information');
     return;
@@ -659,7 +659,56 @@ function drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint
   // Model the table top
   pushMatrix(modelMatrix);
   modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2])
-    modelMatrix.scale(0.25, 4.0, 5.5); // Scale
+    modelMatrix.scale(0.1, 4.0, 5.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffersCustomColour(gl, 0, 0, 0);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
+  // Model the horizontal middle
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]+0.1, centrePoint[1], centrePoint[2])
+    modelMatrix.scale(0.2, 0.2, 5.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the horizontal top
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]+0.1, centrePoint[1]+2.1, centrePoint[2])
+    modelMatrix.scale(0.2, 0.2, 5.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the vertical middle
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]+0.1, centrePoint[1], centrePoint[2])
+    modelMatrix.scale(0.2, 4.0, 0.2); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the vertical right
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]+0.1, centrePoint[1], centrePoint[2]-2.85)
+    modelMatrix.scale(0.2, 4.4, 0.2); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the vertical left
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]+0.1, centrePoint[1], centrePoint[2]+2.85)
+    modelMatrix.scale(0.2, 4.4, 0.2); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the window sill
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]+0.25, centrePoint[1]-2.125, centrePoint[2])
+    modelMatrix.scale(0.75, 0.4, 5.7); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 }
