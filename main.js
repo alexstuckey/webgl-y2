@@ -416,10 +416,12 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
     drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-3.0,-8.0,window.chairOffset+-0.25])
 
   drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-4.5,-7.25,6.75])
+    drawLaptop(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-5.8,-6.95,7.0], true)
     drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-6.0,-8.0,window.chairOffset+9.0])
     drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-3.0,-8.0,window.chairOffset+9.0])
 
   drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [4.5,-7.25,-2.75])
+    drawLaptop(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [5.8,-6.95,-3.0], true)
     drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [6.0,-8.0,window.chairOffset+-0.25])
     drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [3.0,-8.0,window.chairOffset+-0.25])
 
@@ -432,7 +434,7 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
     drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [12.0,-8.0,window.chairOffset+-0.25])
 
   drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [13.5,-7.25,6.75])
-    // drawLaptop(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [14.8,-6.95,7.0])
+    drawLaptop(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [14.8,-6.95,7.0], false)
     drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [15.0,-8.0,window.chairOffset+9.0])
     drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [12.0,-8.0,window.chairOffset+9.0])
 
@@ -900,7 +902,7 @@ function drawClock(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint)
 
 }
 
-function drawLaptop(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
+function drawLaptop(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint, isOpen = false) {
   // Set the vertex coordinates and color (for the cube)
   var n = initVertexBuffersCustomColour(gl, 255, 255, 255);
   if (n < 0) {
@@ -918,7 +920,10 @@ function drawLaptop(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint
   // Model the lid
   pushMatrix(modelMatrix);
   modelMatrix.translate(centrePoint[0], centrePoint[1]+0.05, centrePoint[2])
-    // modelMatrix.rotate(30, 0, 0, 0)
+    if (isOpen) {
+      modelMatrix.rotate(260, 1.0, 0, 0)
+      modelMatrix.translate(0, 1.0, 1)
+    }
     modelMatrix.scale(2.5, 0.1, 2); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
