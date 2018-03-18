@@ -432,6 +432,7 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
     drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [12.0,-8.0,window.chairOffset+-0.25])
 
   drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [13.5,-7.25,6.75])
+    // drawLaptop(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [14.8,-6.95,7.0])
     drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [15.0,-8.0,window.chairOffset+9.0])
     drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [12.0,-8.0,window.chairOffset+9.0])
 
@@ -894,6 +895,31 @@ function drawClock(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint)
   modelMatrix.rotate(-toAngle(now.getSeconds(), 60), 0, 0, 1.0)
   modelMatrix.translate(0, 0.625, 0)
     modelMatrix.scale(0.05, 1.25, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+}
+
+function drawLaptop(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffersCustomColour(gl, 255, 255, 255);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
+  // Model the base
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2])
+    modelMatrix.scale(2.5, 0.1, 2); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the lid
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1]+0.05, centrePoint[2])
+    // modelMatrix.rotate(30, 0, 0, 0)
+    modelMatrix.scale(2.5, 0.1, 2); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 
