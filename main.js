@@ -528,16 +528,122 @@ function drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint)
 
 function drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
   // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffersCustomColour(gl, 0, 0, 0);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
+  // Model the black back
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2])
+    modelMatrix.scale(11.0, 6.5, 0.25); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the left speaker back
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]-6.5, centrePoint[1]+0.3, centrePoint[2]+0.375)
+    modelMatrix.scale(1.1, 5.0, 0.75); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the right speaker back
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]+6.5, centrePoint[1]+0.3, centrePoint[2]+0.375)
+    modelMatrix.scale(1.1, 5.0, 0.75); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the holder frame
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1]-3.6, centrePoint[2]+0.5)
+    modelMatrix.scale(8, 0.7, 1.0); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Set the vertex coordinates and color (for the cube)
   var n = initVertexBuffersCustomColour(gl, 255, 255, 255);
   if (n < 0) {
     console.log('Failed to set the vertex information');
     return;
   }
 
-  // Model the table top
+  // Model the white screen
   pushMatrix(modelMatrix);
-  modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2])
-    modelMatrix.scale(9.0, 5.0, 0.25); // Scale
+  modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2]+0.15)
+    modelMatrix.scale(10.6, 6.1, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the white pen frame
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1]-3.0, centrePoint[2]+0.6)
+    modelMatrix.scale(1.5, 0.1, 0.6); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffersCustomColour(gl, 255, 0, 0);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
+  // Model the red pen frame
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]-2.5, centrePoint[1]-3.0, centrePoint[2]+0.6)
+    modelMatrix.scale(1.5, 0.1, 0.6); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffersCustomColour(gl, 0, 255, 0);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
+  // Model the green pen frame
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]+2.5, centrePoint[1]-3.0, centrePoint[2]+0.6)
+    modelMatrix.scale(1.5, 0.1, 0.6); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffersCustomColour(gl, 169, 169, 169);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
+  // Model the left speaker front
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]-6.5, centrePoint[1]+0.95, centrePoint[2]+0.8)
+    modelMatrix.scale(0.7, 3.0, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the right speaker front
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]+6.5, centrePoint[1]+0.95, centrePoint[2]+0.8)
+    modelMatrix.scale(0.7, 3.0, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+   // Model the left speaker bottom
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]-6.5, centrePoint[1]-1.5, centrePoint[2]+0.8)
+    modelMatrix.scale(0.7, 0.7, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the right speaker bottom
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]+6.5, centrePoint[1]-1.5, centrePoint[2]+0.8)
+    modelMatrix.scale(0.7, 0.7, 0.1); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 }
