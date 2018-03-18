@@ -79,6 +79,7 @@ function main() {
     //  Aspect:     Specifies the aspect ratio of the near plane (width/height)
     //  Near, Far:  Specifies the distances to the near and far clipping
     //              planes along the line of sight (>0)
+    //                      40
   projMatrix.setPerspective(40, canvas.width/canvas.height, 1, 100);
   // Pass the model, view, and projection matrix to the uniform variable respectively
   gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.elements);
@@ -89,7 +90,10 @@ function main() {
     keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
   };
 
-  draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
+  setInterval(function(){
+    draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
+  }, 1000)
+  
 }
 
 function keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
@@ -441,6 +445,8 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   // DOOR
   drawDoor(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [13.5,-5.0,-12.25])
 
+  // CLOCK
+  drawClock(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [7.5,0.0,-12.25]) // [8,-5.0,-12.25]
 }
 
 function drawClassroom(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
@@ -799,6 +805,98 @@ function drawDoor(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) 
     modelMatrix.scale(0.3, 0.3, 0.15); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
+}
+
+function drawClock(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffersCustomColour(gl, 255, 255, 255);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
+  // Model the white back
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2])
+    modelMatrix.scale(2.5, 2.5, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffersCustomColour(gl, 0, 0, 0);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
+  // Model the frame left
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]-1.35, centrePoint[1], centrePoint[2])
+    modelMatrix.scale(0.2, 2.5, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the frame right
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]+1.35, centrePoint[1], centrePoint[2])
+    modelMatrix.scale(0.2, 2.5, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the frame top
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1]+1.35, centrePoint[2])
+    modelMatrix.scale(2.9, 0.2, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the frame top
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1]-1.35, centrePoint[2])
+    modelMatrix.scale(2.9, 0.2, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+
+
+  // Work out the time
+  function toAngle(x, p) { return (x%p) / (p/360); }
+  var now = new Date();
+
+  // Model the hours hand
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2]+0.1)
+  modelMatrix.rotate(-toAngle(now.getHours(), 12), 0, 0, 1.0)
+  modelMatrix.translate(0, 0.35, 0)
+    modelMatrix.scale(0.05, 0.7, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the minutes hand
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2]+0.1)
+  modelMatrix.rotate(-toAngle(now.getMinutes(), 60), 0, 0, 1.0)
+  modelMatrix.translate(0, 0.5, 0)
+    modelMatrix.scale(0.05, 1.0, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffersCustomColour(gl, 240, 0, 0);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
+  // Model the seconds hand
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1], centrePoint[2]+0.1)
+  modelMatrix.rotate(-toAngle(now.getSeconds(), 60), 0, 0, 1.0)
+  modelMatrix.translate(0, 0.625, 0)
+    modelMatrix.scale(0.05, 1.25, 0.1); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
 }
 
 function drawbox(gl, u_ModelMatrix, u_NormalMatrix, n) {
