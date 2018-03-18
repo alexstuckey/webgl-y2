@@ -433,7 +433,7 @@ function drawClassroom(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePo
 
 function drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
   // Set the vertex coordinates and color (for the cube)
-  var n = initVertexBuffers(gl);
+  var n = initVertexBuffersCustomColour(gl, 205, 133, 63);
   if (n < 0) {
     console.log('Failed to set the vertex information');
     return;
@@ -484,7 +484,7 @@ function drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint)
 
 function drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
   // Set the vertex coordinates and color (for the cube)
-  var n = initVertexBuffers(gl);
+  var n = initVertexBuffersCustomColour(gl, 244, 164, 96);
   if (n < 0) {
     console.log('Failed to set the vertex information');
     return;
@@ -528,7 +528,7 @@ function drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint)
 
 function drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
   // Set the vertex coordinates and color (for the cube)
-  var n = initVertexBuffersCustomColour(gl, 0, 1, 0);
+  var n = initVertexBuffersCustomColour(gl, 255, 255, 255);
   if (n < 0) {
     console.log('Failed to set the vertex information');
     return;
