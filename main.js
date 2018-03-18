@@ -371,28 +371,44 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   drawClassroom(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [0,0,0])
 
   // TABLES AND CHAIRS
-  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-6.5,-7.25,-2.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-8.0,-8.0,-0.25])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-5.0,-8.0,-0.25])
+  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-13.5,-7.25,-2.75])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-15.0,-8.0,-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.0,-8.0,-0.25])
 
-  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-6.5,-7.25,6.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-8.0,-8.0,9.0])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-5.0,-8.0,9.0])
+  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-13.5,-7.25,6.75])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-15.0,-8.0,9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.0,-8.0,9.0])
 
-  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [6.5,-7.25,-2.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [8.0,-8.0,-0.25])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [5.0,-8.0,-0.25])
+  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-4.5,-7.25,-2.75])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-6.0,-8.0,-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-3.0,-8.0,-0.25])
 
-  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [6.5,-7.25,6.75])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [8.0,-8.0,9.0])
-    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [5.0,-8.0,9.0])  
+  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-4.5,-7.25,6.75])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-6.0,-8.0,9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-3.0,-8.0,9.0])
+
+  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [4.5,-7.25,-2.75])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [6.0,-8.0,-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [3.0,-8.0,-0.25])
+
+  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [4.5,-7.25,6.75])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [6.0,-8.0,9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [3.0,-8.0,9.0])
+
+  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [13.5,-7.25,-2.75])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [15.0,-8.0,-0.25])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [12.0,-8.0,-0.25])
+
+  drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [13.5,-7.25,6.75])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [15.0,-8.0,9.0])
+    drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [12.0,-8.0,9.0])
 
   // WHITEBOARD
   drawWhiteboard(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [0,-2.0,-12.25])
 
   // WINDOWS
-  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.3,0,6])
-  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-12.3,0,-6])
+  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-19.9,0,6])
+  drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-19.9,0,-6])
 
   // DOOR
   // drawDoor(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, n, [0,0,0])
@@ -410,20 +426,20 @@ function drawClassroom(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePo
   // Model the chair seat
   pushMatrix(modelMatrix);
   modelMatrix.translate(centrePoint[0], centrePoint[1]-10, centrePoint[2])
-    modelMatrix.scale(25.0, 0.1, 25.0); // Scale
+    modelMatrix.scale(40.0, 0.1, 25.0); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 
   // Model the back wall
   pushMatrix(modelMatrix);
     modelMatrix.translate(centrePoint[0]+0.0, centrePoint[1]-2.5, centrePoint[2]-12.45);  // Translation
-    modelMatrix.scale(25.0, 15.0, 0.1); // Scale
+    modelMatrix.scale(40.0, 15.0, 0.1); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 
   // Model the left wall
   pushMatrix(modelMatrix);
-    modelMatrix.translate(centrePoint[0]-12.45, centrePoint[1]-2.5, centrePoint[2]-0.0);  // Translation
+    modelMatrix.translate(centrePoint[0]-19.95, centrePoint[1]-2.5, centrePoint[2]-0.0);  // Translation
     modelMatrix.scale(0.1, 15.0, 25.0); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
@@ -707,7 +723,7 @@ function drawWindow(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint
 
   // Model the window sill
   pushMatrix(modelMatrix);
-  modelMatrix.translate(centrePoint[0]+0.25, centrePoint[1]-2.125, centrePoint[2])
+  modelMatrix.translate(centrePoint[0]+0.30, centrePoint[1]-2.125, centrePoint[2])
     modelMatrix.scale(0.75, 0.4, 5.7); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
