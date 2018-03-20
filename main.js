@@ -89,30 +89,29 @@ function main() {
   document.onkeydown = function(ev){
     keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
   };
-
-  setInterval(function(){
-    draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
-  }, 1000)
   
+  var tick = function() {
+    draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
+    requestAnimationFrame(tick, canvas);
+  }
+
+  tick();
+
 }
 
 function keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   switch (ev.keyCode) {
     case 40: // Up arrow key -> the positive rotation of arm1 around the y-axis
       g_xAngle = (g_xAngle + ANGLE_STEP) % 360;
-      draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
       break;
     case 38: // Down arrow key -> the negative rotation of arm1 around the y-axis
       g_xAngle = (g_xAngle - ANGLE_STEP) % 360;
-      draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
       break;
     case 39: // Right arrow key -> the positive rotation of arm1 around the y-axis
       g_yAngle = (g_yAngle + ANGLE_STEP) % 360;
-      draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
       break;
     case 37: // Left arrow key -> the negative rotation of arm1 around the y-axis
       g_yAngle = (g_yAngle - ANGLE_STEP) % 360;
-      draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
       break;
     case 83: // s key
       start = null;
@@ -124,7 +123,6 @@ function keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
         } else {
           window.chairOffset = Math.max(2.0-(progress/1000)*2.0, 0.0);
         }
-        draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
         if (progress < 1000) {
           requestAnimationFrame(aStep, document.getElementById('webgl'));
         } else {
