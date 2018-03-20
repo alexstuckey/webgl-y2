@@ -6,6 +6,9 @@ function intRBGtoFloat(int) {
 window.chairOffset = 0.0;
 window.chairLastPosition = "in";
 
+// Retrieve <canvas> element
+var canvas = document.getElementById('webgl');
+
 var modelMatrix = new Matrix4(); // The model matrix
 var viewMatrix = new Matrix4();  // The view matrix
 var projMatrix = new Matrix4();  // The projection matrix
@@ -18,8 +21,6 @@ var g_xAngle = 10.0;    // The rotation x angle (degrees)
 var g_yAngle = -40.0;    // The rotation y angle (degrees)
 
 function main() {
-  // Retrieve <canvas> element
-  var canvas = document.getElementById('webgl');
 
   // Get the rendering context for WebGL
   var gl = getWebGLContext(canvas);
@@ -124,7 +125,7 @@ function keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
           window.chairOffset = Math.max(2.0-(progress/1000)*2.0, 0.0);
         }
         if (progress < 1000) {
-          requestAnimationFrame(aStep, document.getElementById('webgl'));
+          requestAnimationFrame(aStep, canvas);
         } else {
           if (window.chairLastPosition == "in") {
             window.chairLastPosition = "out";
@@ -134,7 +135,7 @@ function keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
         }
       }
 
-      requestAnimationFrame(aStep, document.getElementById('webgl'))
+      requestAnimationFrame(aStep, canvas)
       
       break;
     default: return; // Skip drawing at no effective action
