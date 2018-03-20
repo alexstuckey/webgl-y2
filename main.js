@@ -353,6 +353,12 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   // CLASSROOM
   drawClassroom(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [0,0,0])
 
+  // LIGHTS
+  drawLights(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-10,10,-5])
+  drawLights(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-10,10,5])
+  drawLights(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [10,10,-5])
+  drawLights(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [10,10,5])
+
   // TABLES AND CHAIRS
   drawTable(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-13.5,-7.25,-2.75])
     drawChair(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, [-15.0,-8.0,window.chairOffset+-0.25])
@@ -411,27 +417,72 @@ function drawClassroom(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePo
     return;
   }
 
-  // Model the chair seat
+  // Model the floor
   pushMatrix(modelMatrix);
   modelMatrix.translate(centrePoint[0], centrePoint[1]-10, centrePoint[2])
     modelMatrix.scale(40.0, 0.1, 25.0); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 
+  // Model the ceiling
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1]+10, centrePoint[2])
+    modelMatrix.scale(40.0, 0.1, 25.0); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
   // Model the back wall
   pushMatrix(modelMatrix);
-    modelMatrix.translate(centrePoint[0]+0.0, centrePoint[1]-2.5, centrePoint[2]-12.45);  // Translation
-    modelMatrix.scale(40.0, 15.0, 0.1); // Scale
+    modelMatrix.translate(centrePoint[0]+0.0, centrePoint[1], centrePoint[2]-12.45);  // Translation
+    modelMatrix.scale(40.0, 20.0, 0.1); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 
   // Model the left wall
   pushMatrix(modelMatrix);
-    modelMatrix.translate(centrePoint[0]-19.95, centrePoint[1]-2.5, centrePoint[2]-0.0);  // Translation
-    modelMatrix.scale(0.1, 15.0, 25.0); // Scale
+    modelMatrix.translate(centrePoint[0]-19.95, centrePoint[1], centrePoint[2]-0.0);  // Translation
+    modelMatrix.scale(0.1, 20.0, 25.0); // Scale
     drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
   modelMatrix = popMatrix();
 
+  
+}
+
+function drawLights(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting, centrePoint) {
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffersCustomColour(gl, 105, 105, 105);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
+  // Model the unit
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0], centrePoint[1]-3, centrePoint[2])
+    modelMatrix.scale(8.0, 1.5, 3.0); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Set the vertex coordinates and color (for the cube)
+  var n = initVertexBuffersCustomColour(gl, 47, 79, 79);
+  if (n < 0) {
+    console.log('Failed to set the vertex information');
+    return;
+  }
+
+  // Model the right cord
+  pushMatrix(modelMatrix);
+  modelMatrix.translate(centrePoint[0]+2, centrePoint[1]-1.5, centrePoint[2])
+    modelMatrix.scale(0.5, 3.0, 0.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
+
+  // Model the left cord
+  pushMatrix(modelMatrix);
+    modelMatrix.translate(centrePoint[0]-2, centrePoint[1]-1.5, centrePoint[2]);  // Translation
+    modelMatrix.scale(0.5, 3.0, 0.5); // Scale
+    drawbox(gl, u_ModelMatrix, u_NormalMatrix, n);
+  modelMatrix = popMatrix();
   
 }
 
