@@ -20,6 +20,8 @@ var ANGLE_STEP = 3.0;  // The increments of rotation angle (degrees)
 var g_xAngle = 10.0;    // The rotation x angle (degrees)
 var g_yAngle = -40.0;    // The rotation y angle (degrees)
 
+var changes = false;
+
 function main() {
 
   // Get the rendering context for WebGL
@@ -90,9 +92,14 @@ function main() {
   document.onkeydown = function(ev){
     keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
   };
+
+  changes = true;
   
   var tick = function() {
-    draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
+    if (changes) {
+      draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting);
+      changes = false
+    }
     requestAnimationFrame(tick, canvas);
   }
 
@@ -104,15 +111,19 @@ function keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   switch (ev.keyCode) {
     case 40: // Up arrow key -> the positive rotation of arm1 around the y-axis
       g_xAngle = (g_xAngle + ANGLE_STEP) % 360;
+      changes = true;
       break;
     case 38: // Down arrow key -> the negative rotation of arm1 around the y-axis
       g_xAngle = (g_xAngle - ANGLE_STEP) % 360;
+      changes = true;
       break;
     case 39: // Right arrow key -> the positive rotation of arm1 around the y-axis
       g_yAngle = (g_yAngle + ANGLE_STEP) % 360;
+      changes = true;
       break;
     case 37: // Left arrow key -> the negative rotation of arm1 around the y-axis
       g_yAngle = (g_yAngle - ANGLE_STEP) % 360;
+      changes = true;
       break;
     case 83: // s key
       start = null;
@@ -124,6 +135,7 @@ function keydown(ev, gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
         } else {
           window.chairOffset = Math.max(2.0-(progress/1000)*2.0, 0.0);
         }
+        changes = true;
         if (progress < 1000) {
           requestAnimationFrame(aStep, canvas);
         } else {
