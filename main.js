@@ -330,9 +330,6 @@ function draw(gl, u_ModelMatrix, u_NormalMatrix, u_isLighting) {
   // Pass the model matrix to the uniform variable
   gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements);
 
-  // Draw x and y axes
-  gl.drawArrays(gl.LINES, 0, n);
-
   gl.uniform1i(u_isLighting, true); // Will apply lighting
 
   // Rotate, and then translate
